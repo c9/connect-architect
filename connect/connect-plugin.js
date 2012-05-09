@@ -19,8 +19,8 @@ module.exports = function startup(options, imports, register) {
             return connect;
         },
         shutdown: function(callback) {
+            server.once("close", callback);
             server.close();
-            server.on("close", callback);
         }
     };
     hookNames.forEach(function(name) {
