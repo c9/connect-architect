@@ -54,8 +54,8 @@ module.exports = function startup(options, imports, register) {
 
             register(null, {
                 "onDestruct": function(callback) {
+                    server.once("close", callback);
                     server.close();
-                    server.on("close", callback);
                 },
                 "connect": api,
                 "http": {
