@@ -17,6 +17,10 @@ module.exports = function startup(options, imports, register) {
     var api = {
         getModule: function() {
             return connect;
+        },
+        shutdown: function(callback) {
+            server.close();
+            server.on("close", callback);
         }
     };
     hookNames.forEach(function(name) {
