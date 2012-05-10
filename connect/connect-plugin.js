@@ -68,7 +68,7 @@ module.exports = function startup(options, imports, register) {
             if (err)
                 return register(err);
 
-            startListening(port, options.host);
+            startListening(port, options.host || "localhost");
         });
     } else {
         startListening(options.port, options.host);
