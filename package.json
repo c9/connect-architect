@@ -9,10 +9,21 @@
         { "name": "Christoph Dorn", "email": "christoph@c9.io" }
     ],
 
+    "pm": "sm",
+
     "dependencies": {
-        "architect": "~0.0.3",
-        "connect": "~1.8.7",
-        "netutil": "~0.0.1"
+        "connect": "~1.8.7"
+    },
+
+    "mappings": {
+        "netutil": [
+            "npm",
+            "https://github.com/c9/node-netutil/tarball/a822592bb484123966084ef4a88cab08d23929ed"
+        ],
+        "architect": [
+            "npm",
+            "https://github.com/c9/architect/tarball/6a7069e6d1b65a515af73d1dd92757da33bfc2a9"
+        ]
     },
 
     "repository" : {
