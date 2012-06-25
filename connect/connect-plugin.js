@@ -1,3 +1,4 @@
+var utils = require("connect/lib/utils");
 var netutil = require("netutil");
 var connect = require("connect");
 
@@ -17,6 +18,9 @@ module.exports = function startup(options, imports, register) {
     var api = {
         getModule: function() {
             return connect;
+        },
+        getUtils: function() {
+            return utils;
         }
     };
     hookNames.forEach(function(name) {
