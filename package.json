@@ -10,14 +10,21 @@
         },
         {
             "name": "Christoph Dorn",
-            "email": "christoph@c9.io"
+            "email": "christoph@christophdorn.com"
         }
     ],
+    "pm": "npm",
     "dependencies": {
         "architect": "~0.1.4",
         "connect": "~2.4.5",
         "netutil": "~0.0.1",
         "mime": ">= 0.0.1"
+    },
+    "devDependencies": {
+        "request": "2.11.1"
+    },
+    "scripts": {
+        "test": "node test/all.js"
     },
     "repository": {
         "type": "git",
