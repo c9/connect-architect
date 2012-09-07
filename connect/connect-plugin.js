@@ -75,6 +75,6 @@ module.exports = function startup(options, imports, register) {
             startListening(port, options.host || "localhost");
         });
     } else {
-        startListening(options.port, options.host);
+        startListening(options.port, options.host || "localhost");
     }
 };
