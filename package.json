@@ -14,8 +14,8 @@
         }
     ],
     "dependencies": {
-        "architect": "~0.0.3",
-        "connect": "~1.8.7",
+        "architect": "~0.1.4",
+        "connect": "~2.4.5",
         "netutil": "~0.0.1",
         "mime": ">= 0.0.1"
     },

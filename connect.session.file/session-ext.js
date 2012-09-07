@@ -21,6 +21,7 @@ module.exports = function startup(options, imports, register) {
     
     register(null, {
         "session-store": {
+            on: sessionStore.on.bind(sessionStore),
             get: sessionStore.get.bind(sessionStore),
             set: sessionStore.set.bind(sessionStore),
             destroy: sessionStore.destroy.bind(sessionStore),

@@ -1,9 +1,6 @@
 var port = process.env.PORT || 8080;
 
-module.exports = {
-    containers: {
-        master: {
-            plugins: [{
+module.exports = [{
                 packagePath: "../connect",
                 port: port
             }, {
@@ -14,7 +11,4 @@ module.exports = {
                 packagePath: "../connect.session.memory"
             }, {
                 packagePath: "architect/plugins/architect.log"
-            }]
-        }
-    }
-};
+            }];
