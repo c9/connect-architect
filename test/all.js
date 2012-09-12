@@ -8,6 +8,8 @@ function main(callback) {
 
 	var port = parseInt(process.env.PORT || 8080, 10);
 
+	console.log("Port: " + port);
+
 	DEMO_SERVER.main("default", function(err, app) {
 		if (err) return callback(err);
 
