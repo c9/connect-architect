@@ -6,10 +6,12 @@ const REQUEST = require("request");
 
 function main(callback) {
 
+	var port = parseInt(process.env.PORT || 8080, 10);
+
 	DEMO_SERVER.main("default", function(err, app) {
 		if (err) return callback(err);
 
-		REQUEST("http://localhost:8080", function (error, response, body) {
+		REQUEST("http://localhost:" + port, function (error, response, body) {
 			if (error || response.statusCode !== 200) {
 				ASSERT.fail("Did not get status 200!");
 				return;

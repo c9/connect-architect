@@ -1,5 +1,5 @@
 
-var port = process.env.PORT || 8080;
+var port = parseInt(process.env.PORT || 8080, 10);
 
 module.exports = [{
     packagePath: "../../connect",
