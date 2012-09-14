@@ -1,16 +1,15 @@
 {
-    "name": "connect-architect.connect",
+    "name": "connect-architect.static",
     "version": "0.0.1",
-    "main": "./connect-plugin.js",
+    "main": "./static-plugin.js",
     "private": true,
 
     "plugin": {
         "provides": [
-            "connect",
-            "http"
+            "static"
         ],
         "consumes": [
-            "log"
+            "connect"
         ]
     }
 }
