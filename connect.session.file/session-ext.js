@@ -69,6 +69,7 @@ FileStore.prototype.__proto__ = Store.prototype;
 
 FileStore.prototype.get = function(sid, fn){
   var self = this;
+  sid = sid.replace(/\//g, "_");
   path.exists(self.basePath + "/" + sid, function(exists) {
       if (exists) {
           fs.readFile(self.basePath + "/" + sid, function(err, data) {
@@ -103,6 +104,7 @@ FileStore.prototype.get = function(sid, fn){
 
 FileStore.prototype.set = function(sid, sess, fn){
   var self = this;
+  sid = sid.replace(/\//g, "_");
   var path = self.basePath + "/" + sid;
   var tmpPath = path + "~" + new Date().getTime();
   fs.writeFile(path, JSON.stringify(sess), function(err) {
@@ -117,6 +119,7 @@ FileStore.prototype.set = function(sid, sess, fn){
 
 FileStore.prototype.destroy = function(sid, fn){
   var self = this;
+  sid = sid.replace(/\//g, "_");
   path.exists(self.basePath + "/" + sid, function(exists) {
       if (exists) {
           fs.unlink(self.basePath + "/" + sid, function(err) {
