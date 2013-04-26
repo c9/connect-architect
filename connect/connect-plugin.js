@@ -3,8 +3,6 @@ var netutil = require("netutil");
 var connect = require("connect");
 
 module.exports = function startup(options, imports, register) {
-    imports.log.info("connect plugin start");
-
     var server = connect();
 
     var hookNames = [
@@ -12,8 +10,7 @@ module.exports = function startup(options, imports, register) {
         "Setup",
         "Main",
         "Session",
-        "Auth",
-        "Error"
+        "Auth"
     ];
     var api = {
         getModule: function() {
@@ -29,6 +26,11 @@ module.exports = function startup(options, imports, register) {
         api["use" + name] = hookServer.use.bind(hookServer);
     });
 
+    var connectHook = connectError();
+    server.use(connectHook);
+    api.useError = connectHook.use.bind(connectHook);
+
+    
     api.useSetup(connect.cookieParser());
     api.useSetup(connect.bodyParser());
 
@@ -50,7 +52,7 @@ module.exports = function startup(options, imports, register) {
             if (err)
                 return register(err);
 
-            imports.log.info("Connect server listening at http://" + host + ":" + port);
+            console.log("Connect server listening at http://" + host + ":" + port);
 
             register(null, {
                 "onDestruct": function(callback) {
@@ -76,5 +78,28 @@ module.exports = function startup(options, imports, register) {
         });
     } else {
         startListening(options.port, options.host || "localhost");
+    }
+    
+    function connectError() {
+        var filters = [];
+    
+        function handle(err, req, res, out) {
+            var rest = filters.concat();
+    
+            function next(err) {
+                var filter = rest.shift();
+                if (!filter)
+                    return out(err);
+    
+                filter(err, req, res, next);
+            }
+            next(err);
+        }
+    
+        handle.use = function(middleware) {
+            filters.push(middleware);
+        };
+        
+        return handle;
     }
 };
