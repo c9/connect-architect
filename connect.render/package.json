@@ -1,12 +1,13 @@
 {
-    "name": "connect-architect.static",
+    "name": "connect.render",
     "version": "0.0.1",
-    "main": "./static-plugin.js",
+
+    "main": "./render.js",
     "private": true,
 
     "plugin": {
         "provides": [
-            "connect.static"
+            "connect.render"
         ],
         "consumes": [
             "connect"
