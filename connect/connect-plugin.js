@@ -8,7 +8,7 @@ module.exports = function startup(options, imports, register) {
 
     http.ServerResponse.prototype.setOptions = function(options) {
         this._options = this._options || [];
-        this._options.push(path);
+        this._options.push(options);
     };
     
     http.ServerResponse.prototype.getOptions = function(options) {
@@ -75,7 +75,7 @@ module.exports = function startup(options, imports, register) {
     api.useSetup(connect.bodyParser());
 
     api.addRoute = server.addRoute;
-    api.use = api.useStart;
+    api.use = api.useMain;
 
     api.on = server.on;
     api.emit = server.emit;
