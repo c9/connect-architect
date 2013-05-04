@@ -9,7 +9,7 @@ module.exports = function(options, imports, register) {
         this.end("");
     };
     http.ServerResponse.prototype.returnTo = function(req, defaultReturn) {
-        var url = defaultReturn || "/";
+        var url = defaultReturn || "/";        
         if (req.session && req.session.returnTo) {
             url = req.session.returnTo;
             delete req.session.returnTo;
