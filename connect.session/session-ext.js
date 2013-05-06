@@ -9,11 +9,23 @@ module.exports = function startup(options, imports, register) {
     var connect = imports.connect;
     var sessionStore = imports["session-store"];
 
-    connect.useSession(Session({
+    var sessionOptions = {
         store: sessionStore,
         key: options.key,
-        secret: options.secret
-    }));
+        secret: options.secret,
+        cookie: {}
+    };
+    if ("proxy" in options)
+        sessionOptions.proxy = options.proxy;
+        
+    var cookie = sessionOptions.cookie;
+    if ("secure" in options)
+        cookie.secure = options.secure;
+        
+    if ("maxAge" in options)
+        cookie.maxAge = options.maxAge;
+
+    connect.useSession(Session(sessionOptions, cookie));
 
     register(null, {
         session: {
