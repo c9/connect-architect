@@ -29,9 +29,7 @@ module.exports = function startup(options, imports, register) {
     var hookNames = [
         "Start",
         "Setup",
-        "Main",
-        "Session",
-        "Auth"
+        "Main"
     ];
     var api = {
         getModule: function() {

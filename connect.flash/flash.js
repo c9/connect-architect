@@ -3,7 +3,7 @@
 var flash = require('connect-flash');
 
 module.exports = function(options, imports, register) {
-    imports.connect.useSession(flash());
+    imports.session.use(flash());
     register(null, {
         "connect.flash": {}
     });

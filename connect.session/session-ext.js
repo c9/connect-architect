@@ -25,14 +25,18 @@ module.exports = function startup(options, imports, register) {
     if ("maxAge" in options)
         cookie.maxAge = options.maxAge;
 
-    connect.useSession(Session(sessionOptions, cookie));
+    var sessionRoutes = imports.connect.getModule()();
+    connect.useMain(sessionRoutes);
+
+    sessionRoutes.use(Session(sessionOptions, cookie));
 
     register(null, {
         session: {
             getKey: function() {
                 return options.key;
             },
-            get: sessionStore.get
+            get: sessionStore.get,
+            use: sessionRoutes.use.bind(sessionRoutes)
         }
     });
 };
