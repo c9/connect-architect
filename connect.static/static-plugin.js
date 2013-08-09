@@ -1,8 +1,3 @@
-
-// TODO: This version may be needed for c9local but ideally we can find other solution so
-//       we don't have to keep it up to date.
-//var connect_static = require("connect-architect/connect/middleware/static");
-
 module.exports = function startup(options, imports, register) {
 
     var rjs = {
@@ -16,26 +11,26 @@ module.exports = function startup(options, imports, register) {
     var staticServer = connect.createServer();
     imports.connect.useMain(options.bindPrefix || prefix, staticServer);
 
+    imports.connect.setGlobalOption("staticPrefix", prefix);
+    imports.connect.setGlobalOption("workerPrefix", workerPrefix);
+    imports.connect.setGlobalOption("requirejsConfig", {
+        baseUrl: prefix,
+        paths: rjs.paths,
+        packages: rjs.packages
+    });
+
     register(null, {
-        "static": {
+        "connect.static": {
             addStatics: function(statics) {
-
                 statics.forEach(function(s) {
-
-//                    console.log("MOUNT", prefix, s.mount, s.path);
-                    
                     if (s.router) {
-
                         var server = connect.static(s.path);
                         staticServer.use(s.mount, function(req, res, next) {
                             s.router(req, res);
                             server(req, res, next);
                         });
-
                     } else {
-
                         staticServer.use(s.mount, connect.static(s.path));
-
                     }
 
                     var libs = s.rjs || {};
@@ -43,7 +38,6 @@ module.exports = function startup(options, imports, register) {
                         if (typeof libs[name] === "string") {
                             rjs.paths[name] = join(prefix, libs[name]);
                         } else {
-                            // TODO: Ensure package is not already registered!
                             rjs.packages.push(libs[name]);
                         }
                     }
