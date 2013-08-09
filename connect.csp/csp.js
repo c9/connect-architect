@@ -98,7 +98,10 @@ function csp() {
                     var value = res._csp_policy[key];
                     if (value) {
                         if (typeof value !== "string") {
-                            value["'self'"] = 1;
+                            if (value["noself"])
+                                delete value["noself"];
+                            else
+                                value["'self'"] = 1;
                             value = Object.keys(value).join(" ");
                         }
                         
