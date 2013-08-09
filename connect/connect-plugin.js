@@ -24,7 +24,7 @@ module.exports = function startup(options, imports, register) {
             this._options.pop();
     };
 
-    var server = connect();
+    var app = connect();
 
     var hookNames = [
         "Start",
@@ -60,23 +60,22 @@ module.exports = function startup(options, imports, register) {
     };
     hookNames.forEach(function(name) {
         var hookServer = connect();
-        server.use(hookServer);
+        app.use(hookServer);
         api["use" + name] = hookServer.use.bind(hookServer);
     });
 
     var connectHook = connectError();
-    server.use(connectHook);
+    app.use(connectHook);
     api.useError = connectHook.use.bind(connectHook);
 
-    
     api.useSetup(connect.cookieParser());
     api.useSetup(connect.bodyParser());
 
-    api.addRoute = server.addRoute;
+    api.addRoute = app.addRoute;
     api.use = api.useMain;
 
-    api.on = server.on;
-    api.emit = server.emit;
+    api.on = app.on;
+    api.emit = app.emit;
 
     function startListening (port, host) {
         api.getPort = function () {
@@ -86,6 +85,7 @@ module.exports = function startup(options, imports, register) {
             return host;
         };
 
+        var server = http.createServer(app);
         server.listen(port, host, function(err) {
             if (err)
                 return register(err);
@@ -94,8 +94,8 @@ module.exports = function startup(options, imports, register) {
 
             register(null, {
                 "onDestruct": function(callback) {
-                    server.close();
-                    server.on("close", callback);
+                    app.close();
+                    app.on("close", callback);
                 },
                 "connect": api,
                 "http": {
@@ -105,6 +105,41 @@ module.exports = function startup(options, imports, register) {
                 }
             });
         });
+        
+        if (options.websocket)
+            attachWsServer(server, app);
+        
+        function attachWsServer(server, app) {
+            server.on("upgrade", function(req, socket, head) {
+                var res = new http.ServerResponse(req);
+                req.ws = {
+                    socket: socket,
+                    head: head
+                };
+                req.method = "UPGRADE";
+                
+                res.write = function() {
+                    console.log("RES WRITE", arguments);
+                };
+                res.writeHead = function() {
+                    console.log("RES WRITEHEAD", arguments);
+                };
+                res.end = function() {
+                    console.log("RES END", arguments);
+                    socket.end();
+                    console.trace();
+                    console.log(req.headers)
+                };
+                
+                app.handle(req, res, function(err) {
+                    if (err) {
+                        console.error("Websocket error", err);
+                    }
+                    
+                    socket.end();
+                });
+            });
+        }
     }
 
     if (options.port instanceof Array) {
