@@ -20,7 +20,7 @@
     "ejs": "~0.8.3"
   },
   "devDependencies": {
-    "request": "2.12.0"
+    "request": "2.88.0"
   },
   "scripts": {
     "test": "node test/all.js"
