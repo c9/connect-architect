@@ -15,7 +15,7 @@
     "connect-flash": "~0.1.0",
     "architect": "~0.1.4",
     "netutil": "~0.0.1",
-    "mime": "~1.2.9",
+    "mime": "~2.4.4",
     "email-validator": "~0.1.2",
     "ejs": "~0.8.3"
   },
