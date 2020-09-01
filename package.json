@@ -11,7 +11,7 @@
   ],
   "pm": "npm",
   "dependencies": {
-    "connect": "~2.7.6",
+    "connect": "~3.7.0",
     "connect-flash": "~0.1.0",
     "architect": "~0.1.4",
     "netutil": "~0.0.1",
